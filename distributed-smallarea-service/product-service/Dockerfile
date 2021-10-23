@@ -2,5 +2,5 @@
 FROM openjdk:8-jdk-alpine
 ARG JAR_FILE
 COPY ${JAR_FILE} app.jar
-EXPOSE 9001
+EXPOSE 53022
 ENTRYPOINT ["java","-jar","/app.jar"]

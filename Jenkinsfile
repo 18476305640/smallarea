@@ -20,10 +20,7 @@ def find_block = [
     "user-service":"distributed-smallarea-service"
 ]
 //common's install
-def commons_block = [
-    "./",
-    "./distributed-smallarea-common"
-]
+def commons_block = "./,./distributed-smallarea-common".split(',')
 node {
     //获取当前选择的项目名称
     def selectedProjectNames = "${project_name}".split(",")

@@ -43,8 +43,9 @@ node {
             def currentProjectPort = "${projectInfo}".split("@")[1]
             def scannerHome=tool 'SonarQube-Scanner'// 在“全局工具” ~:8888/configureTools/ 查看
             withSonarQubeEnv('sonar6.7'){ //在“系统配置” ~8888/configure 查看
+                def path_block = find_block[currentProjectName];
                 sh """
-            		cd ${currentProjectName}
+            		cd ${path_block}/${currentProjectName}
             		${scannerHome}/bin/sonar-scanner
             	"""
             }

@@ -11,14 +11,14 @@ def harbor_url = "192.168.87.102:85"
 def harbor_project = "smallarea"
 //Harbor的登录凭证ID
 def harbor_auth = "de8976d1-1acc-41f8-ad57-42c1eebb4ecb"
-def find_block = {
+def find_block = [
     "gateway-service":"distributed-smallarea-security",
     "uaa-service":"distributed-smallarea-security",
     "cart-service":"distributed-smallarea-service",
     "product-service":"distributed-smallarea-service",
     "store-service":"distributed-smallarea-service",
     "user-service":"distributed-smallarea-service"
-}
+]
 //common's install
 def commons_block = [
     "./",

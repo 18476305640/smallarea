@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjazn.uaa.dao.UserLineRoleDao">
+
+    <!--创建用户-->
+    <!--
+     private String user_id;
+    private String role_id;
+    private Date create_time;
+    private String creator;
+    -->
+    <insert id="createLine" parameterType="com.zjazn.uaa.model.UserLineRole" >
+        INSERT INTO t_user_role (user_id, role_id, create_time, creator )
+        VALUES(#{user_id},#{role_id}, #{create_time}, #{creator});
+    </insert>
+
+
+</mapper>

@@ -1,0 +1,75 @@
+server:
+  port: 53020
+  servlet:
+    context‐path: /uaa
+#  tomcat:
+#    protocol_header: x‐forwarded‐proto
+#    remote_ip_header: x‐forwarded‐for
+#  use‐forward‐headers: true
+spring:
+  application:
+    name: uaa-service
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.87.101:3306/area_user?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 3333
+#  freemarker:
+#    charset: UTF-8
+#    content-type: text/html
+#    enabled: true
+#    request-context-attribute: rc
+#    suffix: .html
+#  http:
+#    encoding:
+#      charset: UTF-8
+#      enabled: true
+#      force: true
+  main:
+    allow-bean-definition-overriding: true
+  mvc:
+    throw-exception-if-no-handler-found: true
+#  resources:
+#    add-mappings: false
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.87.101:3333,192.168.87.101:4444,192.168.87.101:5555 #配置Nacos地址
+    alibaba:
+      seata:
+        # 自定义事务组名称需要与seata-server中的对应
+        tx-service-group: fsp_tx_group
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'  #监控
+
+
+feign:
+  compression:
+    request:
+      enabled: true
+      mime‐types:
+        - text/xml
+        - application/xml
+        - application/json
+      min‐request‐size: 2048
+    response:
+      enabled: true
+  hystrix:
+    enabled: true
+logging:
+  level:
+    org:
+      springframework:
+        web: info
+    root: debug
+
+wx:
+  appid: wxb90ff4a37284be27
+  secret: 2110815e27eca021c516d87635388cdf
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.zjazn.uaa.model

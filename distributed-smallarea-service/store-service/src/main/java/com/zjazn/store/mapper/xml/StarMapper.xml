@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjazn.store.mapper.StarMapper">
+<!--    private String goods_id;-->
+<!--    private Float star;-->
+
+    <resultMap id="stars" type="com.zjazn.store.entity.vo.goods_star" >
+        <id column="goods_id" property="goods_id" jdbcType="VARCHAR"></id>
+        <result column="star" property="star" jdbcType="FLOAT"></result>
+    </resultMap>
+    <select id="getAvgStarByGoods" resultMap="stars">
+        SELECT  goods_id , AVG(star) AS star FROM star   WHERE goods_id IN
+        <foreach collection="goods_ids" item="item" index="index" open="(" separator="," close=")" >
+            #{item}
+        </foreach>
+        GROUP BY goods_id;
+    </select>
+
+    <!--根据商品id获取商品好评率-->
+    <select id="getGoodsPraisePercentage" parameterType="java.lang.String" resultType="java.lang.Float">
+        SELECT (SELECT COUNT(*) FROM star  WHERE goods_id = #{goods_id} AND star>=4 )/(SELECT COUNT(*) FROM star WHERE goods_id = #{goods_id} );
+    </select>
+
+
+    <!--根据商品id查看有多少条评论-->
+    <select id="getCommentByGoodsId" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(*)  FROM star WHERE goods_id=#{goods_id};
+    </select>
+
+</mapper>

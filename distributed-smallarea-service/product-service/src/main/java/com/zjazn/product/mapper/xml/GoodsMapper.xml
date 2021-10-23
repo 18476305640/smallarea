@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjazn.product.mapper.GoodsMapper">
+
+    <resultMap id="goodsLimit" type="com.zjazn.product.entity.vo.goods">
+        <id column="id" property="id" jdbcType="VARCHAR"></id>
+        <result column="store_id" property="store_id" jdbcType="VARCHAR"></result>
+        <result column="name" property="name" jdbcType="VARCHAR"></result>
+        <result column="describe" property="describe" jdbcType="VARCHAR"></result>
+        <result column="price" property="price" jdbcType="DECIMAL"></result>
+        <result column="cover" property="cover" jdbcType="VARCHAR"></result>
+    </resultMap>
+    <!--'%${search}%'-->
+    <select id="getGoodsByGlobalTypeId" resultMap="goodsLimit" >
+        SELECT g.id, g.store_id ,gd.name,gd.describe, gd.price, gd.cover FROM goods g
+        LEFT JOIN goods_detail  gd    ON g.id = gd.goods_id
+        WHERE g.partition_global_id=#{id}  AND (gd.name LIKE concat('%',#{search},'%')   OR gd.describe) LIKE concat('%',#{search},'%')  LIMIT #{start_number},#{item_number};
+    </select>
+
+
+
+
+    <select id="GoodsLineDetail" parameterType="java.lang.String" resultType="com.zjazn.product.entity.vo.GoodsLineDetail" >
+        SELECT g.id, g.store_id, g.partition_global_id, g.`partition_local_id`,  g.`create_time`,g.`update_time`,   gd.name,gd.describe, gd.`price`, gd.`cover`, gd.`carousel`, gd.`params`,gd.`more`  FROM goods g
+        LEFT JOIN goods_detail gd ON g.id=gd.goods_id
+        WHERE  g.id = #{goods_id};
+    </select>
+
+
+
+
+
+
+</mapper>

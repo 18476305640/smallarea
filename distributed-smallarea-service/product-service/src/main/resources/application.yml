@@ -1,0 +1,126 @@
+server:
+  port: 53022
+  servlet:
+    context-path: /product
+spring:
+  application:
+    name: product-service
+  freemarker:
+    charset: UTF-8
+    content-type: text/html
+    enabled: true
+    request-context-attribute: rc
+    suffix: .html
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  main:
+    allow-bean-definition-overriding: true
+  mvc:
+    throw-exception-if-no-handler-found: true
+#  resources:
+#    add-mappings: false
+  cloud:
+    alibaba:
+      seata:
+        # 自定义事务组名称需要与seata-server中的对应
+        tx-service-group: fsp_tx_group
+    nacos:
+      discovery:
+        server-addr: 192.168.87.101:3333,192.168.87.101:4444,192.168.87.101:5555 #配置Nacos地址
+    sentinel:
+      eager: true
+      transport:
+        # 配置Sentinel dashboard地址
+        dashboard: localhost:8080
+        # 默认8719端口，假如被占用会自动从8719开始一次+1扫描，直至找到被占用的端口。
+        port: 8719
+      #添加Nacos数据源配置
+      datasource:
+        ds1: # 数据源1
+          nacos:
+            server-addr: localhost:3333
+            dataId: ${spring.application.name}
+            groupId: SERVICE_GROUP
+            data-type: json
+            rule-type: flow # 流控规则
+
+
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.87.101:3306/area_product?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
+    username: root
+    password: 3333
+
+#seata:
+#  tx-service-group: fsp_tx_group
+#  config:
+#    type: nacos
+#    nacos:
+#      namespace:
+#      serverAddr: 192.168.43.64:3333
+#      group: DEFAULT_GROUP
+#      username: ""
+#      password: ""
+#  registry:
+#    type: nacos
+#    nacos:
+#      server-addr: 192.168.43.64:3333
+#      group: DEFAULT_GROUP
+#      namespace:
+#      username: nacos
+#      password: nacos
+#      application: seata-server
+
+feign:
+  compression:
+    request:
+      enabled: true
+      mime-types:
+        - text/xml
+        - application/xml
+        - application/json
+      min-request-size: 2048
+    response:
+      enabled: true
+  hystrix:
+    enabled: true
+logging:
+  level:
+    org:
+      springframework:
+        web: info
+    root: debug
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh,health,info,env
+#mybatis-plus:
+#  mapper-locations: classpath:mapper/*.xml
+#  type-aliases-package: com.zjazn.smallarea.entity
+
+
+
+  # 主键类型
+
+mybatis-plus:
+  mapper-locations: classpath:com/zjazn/product/mapper/xml/*.xml
+  global-config:
+    #0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+    id-type: 0
+    #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+    field-strategy: 0
+    #驼峰下划线转换
+    db-column-underline: true
+    #刷新mapper 调试神器
+    refresh-mapper: true
+    #数据库大写下划线转换
+    #capital-mode: true
+    #自定义SQL注入器
+    configuration:
+      map-underscore-to-camel-case: true
+      cache-enabled: true

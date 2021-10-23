@@ -71,7 +71,9 @@ node {
             //定义镜像名称
             def imageName = "${currentProjectName}:${tag}"
             //对镜像打上标签
+            echo "正在打标签,${imageName}"
             sh "docker tag ${imageName} ${harbor_url}/${harbor_project}/${imageName}"
+            echo "打标签完成！"
             //把镜像推送到Harbor
             withCredentials([usernamePassword(credentialsId: "${harbor_auth}", passwordVariable: 'password', usernameVariable: 'username')]) {
                     //登录到Harbor

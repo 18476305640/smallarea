@@ -8,7 +8,7 @@ def tag = "latest"
 //Harbor的url地址
 def harbor_url = "192.168.87.102:85"
 //镜像库项目名称
-def harbor_project = "smallarea"
+def harbor_project = "tensquare"
 //Harbor的登录凭证ID
 def harbor_auth = "de8976d1-1acc-41f8-ad57-42c1eebb4ecb"
 def find_block = [

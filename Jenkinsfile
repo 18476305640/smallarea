@@ -69,7 +69,8 @@ node {
             sh "mvn -f ${parents}/${currentProjectName}  clean package dockerfile:build"
             sh "echo '镜像制作好了'"
             //定义镜像名称
-            def imageName = "${currentProjectName}:${tag}"
+            def _currentProjectName = currentProjectName.split('-')[0]
+            def imageName = "${_currentProjectName}:${tag}"
             //对镜像打上标签
             echo "正在打标签,${imageName}"
             sh "docker tag ${imageName} ${harbor_url}/${harbor_project}/${imageName}"
